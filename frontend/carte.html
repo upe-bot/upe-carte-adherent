@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma carte adhérent — Union pour l'Enfance</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container" id="content">
+    <div class="card-panel">
+      <p>Chargement de votre carte...</p>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'https://VOTRE-BACKEND.onrender.com'; // à remplacer après déploiement Render
+    const RENEW_URL = 'https://unionpourlenfance.com/adherer';
+
+    const content = document.getElementById('content');
+
+    function formatDate(iso) {
+      if (!iso) return '—';
+      const d = new Date(iso);
+      return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    function renderError(msg) {
+      content.innerHTML = `
+        <div class="card-panel">
+          <p class="message error">${msg}</p>
+        </div>
+      `;
+    }
+
+    function renderCard(data) {
+      const statusClass = data.isValid ? 'valid' : 'expired';
+      const statusText = data.isValid ? 'Adhésion à jour' : 'Adhésion à renouveler';
+
+      content.innerHTML = `
+        <div class="membership-card">
+          <div class="brand">
+            <img src="logo-upe-blanc.png" alt="">
+            <span>Union pour l'Enfance</span>
+          </div>
+          <p class="name">${data.firstName} ${data.lastName}</p>
+          <div class="label">Dernier renouvellement</div>
+          <div class="value">${formatDate(data.renewalDate)}</div>
+          <div class="label">Adhésion valable jusqu'au</div>
+          <div class="value">${formatDate(data.validUntil)}</div>
+          <span class="badge ${statusClass}">${statusText}</span>
+        </div>
+        <a href="${RENEW_URL}" target="_blank" class="renew-btn">Mettre à jour mon adhésion</a>
+      `;
+    }
+
+    async function loadCard() {
+      const params = new URLSearchParams(window.location.search);
+      const token = params.get('token');
+
+      if (!token) {
+        renderError("Lien invalide. Demandez un nouveau lien depuis la page d'accueil.");
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_BASE}/api/member?token=${encodeURIComponent(token)}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Erreur inconnue');
+        renderCard(data);
+      } catch (err) {
+        renderError(err.message);
+      }
+    }
+
+    loadCard();
+  </script>
+</body>
+</html>
