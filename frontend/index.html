@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ma carte adhérent — Union pour l'Enfance</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card-panel">
+      <img src="logo-upe.png" alt="Union pour l'Enfance" class="logo">
+      <h1>Ma carte adhérent</h1>
+      <p>Entrez votre email pour recevoir un lien d'accès à votre carte adhérent.</p>
+      <form id="request-form">
+        <input type="email" id="email" placeholder="votre.email@exemple.com" required>
+        <button type="submit">Recevoir mon lien</button>
+      </form>
+      <p id="message" class="message"></p>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'https://VOTRE-BACKEND.onrender.com'; // à remplacer après déploiement Render
+
+    const form = document.getElementById('request-form');
+    const messageEl = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      const button = form.querySelector('button');
+
+      button.disabled = true;
+      button.textContent = 'Envoi en cours...';
+      messageEl.textContent = '';
+      messageEl.className = 'message';
+
+      try {
+        const res = await fetch(`${API_BASE}/api/request-link`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Erreur inconnue');
+
+        messageEl.textContent = data.message;
+        messageEl.classList.add('success');
+        form.reset();
+      } catch (err) {
+        messageEl.textContent = err.message;
+        messageEl.classList.add('error');
+      } finally {
+        button.disabled = false;
+        button.textContent = 'Recevoir mon lien';
+      }
+    });
+  </script>
+</body>
+</html>
