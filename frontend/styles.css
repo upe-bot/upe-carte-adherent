@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&family=Neucha&display=swap');
+
+:root {
+  --vert-upe: #0A6F71;
+  --jaune-sable: #F7BE47;
+  --orange-vif: #F5A600;
+  --gris-clair: #EDF1F4;
+  --creme: #FAF7F0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--gris-clair);
+  font-family: Calibri, Candara, Segoe UI, sans-serif;
+  color: #1a1a1a;
+  padding: 24px;
+}
+
+.container {
+  width: 100%;
+  max-width: 420px;
+}
+
+h1, h2 {
+  font-family: 'Montserrat', sans-serif;
+  color: var(--vert-upe);
+}
+
+.card-panel {
+  background: #fff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 8px 24px rgba(10, 111, 113, 0.12);
+  text-align: center;
+}
+
+.logo {
+  width: 72px;
+  margin-bottom: 12px;
+}
+
+input[type="email"] {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin: 16px 0;
+  font-family: Calibri, sans-serif;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: var(--vert-upe);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+button:hover { opacity: 0.9; }
+
+.message {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.message.error { color: #c0392b; }
+.message.success { color: var(--vert-upe); }
+
+/* ---- Carte adhérent ---- */
+
+.membership-card {
+  background: linear-gradient(135deg, var(--vert-upe), #073a3b);
+  color: #fff;
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.membership-card .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.membership-card .brand img { width: 40px; }
+
+.membership-card .brand span {
+  font-family: 'Neucha', cursive;
+  font-size: 20px;
+}
+
+.membership-card .name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  margin: 0 0 4px;
+}
+
+.membership-card .label {
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1px;
+  opacity: 0.75;
+  margin-top: 18px;
+}
+
+.membership-card .value {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.badge {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.badge.valid { background: var(--jaune-sable); color: #073a3b; }
+.badge.expired { background: var(--orange-vif); color: #fff; }
+
+.renew-btn {
+  display: block;
+  text-align: center;
+  margin-top: 28px;
+  background: var(--orange-vif);
+  color: #fff;
+  text-decoration: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+}
+
+.renew-btn:hover { opacity: 0.9; }
